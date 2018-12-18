@@ -19,9 +19,40 @@ namespace MyWeb.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index (string productGenre, string searchString)
         {
-            return View(await _context.Product.ToListAsync());
+            // Creates Linq query to search  a product
+            
+            IQueryable<string> genereQuery  = from m in _context.Product
+                                                orderby m.Genre
+                                                select m.Genre;
+
+
+            var products = from m in _context.Product select m;
+            
+            /**
+            If the searchString parameter contains a string,the
+                 movies query is modified to filter on the value of the search
+            string
+             */
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                products = products.Where(s => s.Title.Contains(searchString));
+            }
+
+            if (!String.IsNullOrEmpty(productGenre))
+            {
+                products = products.Where(x => x.Genre == productGenre);
+            }
+
+            var productGenreVM = new ProductGenreViewModel();
+            productGenreVM.Genres = new SelectList(await genereQuery.Distinct().ToListAsync());
+            productGenreVM.Products = await products.ToListAsync();
+            productGenreVM.SearchString = searchString;
+
+            return View(productGenreVM);
+
+            //return View(await _context.Product.ToListAsync());
         }
 
         // GET: Products/Details/5
@@ -53,7 +84,7 @@ namespace MyWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Title,ReleaseDate,Genre,Price")] Product product)
+        public async Task<IActionResult> Create([Bind("ID,Title,ReleaseDate,Genre,Price,Rating")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +116,7 @@ namespace MyWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Title,ReleaseDate,Genre,Price")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Title,ReleaseDate,Genre,Price","Rating")] Product product)
         {
             if (id != product.ID)
             {

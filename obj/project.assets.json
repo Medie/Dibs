@@ -12551,11 +12551,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/media/meth/Kingston Technology/Development/MyWeb/MyWeb.csproj",
+      "projectUniqueName": "/media/meth/Fat32/Development/MyWeb/MyWeb.csproj",
       "projectName": "MyWeb",
-      "projectPath": "/media/meth/Kingston Technology/Development/MyWeb/MyWeb.csproj",
+      "projectPath": "/media/meth/Fat32/Development/MyWeb/MyWeb.csproj",
       "packagesPath": "/home/meth/.nuget/packages/",
-      "outputPath": "/media/meth/Kingston Technology/Development/MyWeb/obj/",
+      "outputPath": "/media/meth/Fat32/Development/MyWeb/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/share/dotnet/sdk/NuGetFallbackFolder"
